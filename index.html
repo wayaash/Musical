@@ -2,38 +2,80 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>HackClub YSWS • Musical </title>
+  <title>YSWS • Musical Website</title>
   <style>
+    /* --- Global Styles --- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      background: linear-gradient(270deg, #ff6a00, #ee0979, #00c6ff, #00ff88);
-      background-size: 800% 800%;
-      animation: gradient 20s ease infinite;
-      font-family: Arial, sans-serif;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(120deg, #141e30, #243b55);
       color: white;
-    }
-    @keyframes gradient {
-      0%{background-position:0% 50%}
-      50%{background-position:100% 50%}
-      100%{background-position:0% 50%}
+      overflow-x: hidden;
     }
     header {
-      margin: 20px;
+      text-align: center;
+      padding: 60px 20px 20px;
       font-size: 2.5rem;
       font-weight: bold;
-      text-shadow: 2px 2px 8px black;
+      text-shadow: 0 0 15px #00e0ff;
+      animation: fadeIn 1.5s ease-in-out;
     }
-    #visualizer {
-      width: 90%;
-      height: 150px;
+    header span {
+      color: #00ff88;
+    }
+
+    section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 255, 200, 0.2);
+      animation: fadeUp 1s ease forwards;
+    }
+    section h2 {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 2rem;
+      color: #00e0ff;
+    }
+
+    /* --- Piano --- */
+    .piano {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .key {
+      width: 60px;
+      height: 200px;
+      background: white;
+      border: 1px solid black;
+      margin: 2px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
       display: flex;
       align-items: flex-end;
-      margin: 10px;
+      justify-content: center;
+      color: black;
+      user-select: none;
+      transition: 0.15s;
+    }
+    .key.active {
+      background: linear-gradient(180deg, gold, orange);
+      transform: scale(0.95);
+      box-shadow: 0 0 20px gold;
+    }
+
+    /* --- Visualizer --- */
+    #visualizer {
+      width: 100%;
+      height: 120px;
+      display: flex;
+      align-items: flex-end;
+      margin-top: 15px;
     }
     .bar {
       flex: 1;
@@ -42,115 +84,87 @@
       height: 10px;
       border-radius: 3px;
     }
-    .piano {
-      display: flex;
-      margin: 20px;
-      background: rgba(0,0,0,0.3);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .key {
-      width: 60px;
-      height: 200px;
-      border: 1px solid black;
-      background: white;
-      color: black;
-      text-align: center;
-      line-height: 200px;
-      font-weight: bold;
-      cursor: pointer;
-      user-select: none;
-      transition: 0.1s;
-    }
-    .key.active {
-      background: gold;
-      transform: scale(0.95);
-    }
-    section {
-      width: 90%;
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 20px;
-      background: rgba(0,0,0,0.5);
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(255,255,255,0.3);
-    }
-    section h2 {
-      text-align: center;
-      margin-bottom: 15px;
-      font-size: 1.8rem;
-    }
+
+    /* --- Rules List --- */
     ul {
       list-style: none;
-      padding: 0;
+      margin-top: 15px;
+      padding-left: 0;
     }
     ul li {
-      background: rgba(255,255,255,0.1);
-      margin: 8px 0;
-      padding: 10px;
-      border-radius: 8px;
+      margin: 10px 0;
+      padding: 12px;
+      background: rgba(0, 255, 200, 0.1);
+      border-left: 4px solid #00ff88;
+      border-radius: 6px;
       font-size: 1.1rem;
     }
+
+    /* --- Rewards Grid --- */
     .rewards {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 15px;
       margin-top: 20px;
     }
     .card {
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.4);
       padding: 20px;
       border-radius: 12px;
-      box-shadow: 0 0 15px rgba(255,255,255,0.4);
       text-align: center;
       font-size: 1.2rem;
       transition: 0.3s;
+      border: 1px solid rgba(0,255,200,0.2);
     }
     .card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 25px rgba(255,255,255,0.7);
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px rgba(0,255,200,0.7);
     }
+
+    /* --- Button --- */
     .submit-btn {
-      display: block;
-      margin: 0 auto;
-      padding: 15px 25px;
-      background: #00ff88;
+      display: inline-block;
+      margin-top: 20px;
+      padding: 14px 28px;
+      background: linear-gradient(90deg, #00ff88, #00e0ff);
       color: black;
       font-weight: bold;
       font-size: 1.2rem;
-      border: none;
       border-radius: 12px;
       cursor: pointer;
-      transition: 0.3s;
       text-decoration: none;
+      transition: 0.3s;
     }
     .submit-btn:hover {
-      background: #00c6ff;
-      color: white;
       transform: scale(1.05);
+      box-shadow: 0 0 20px #00e0ff;
     }
+
+    /* --- Animations --- */
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:translateY(0);} }
   </style>
 </head>
 <body>
-  <header>🎶 NEW YSWS ALERT!! YS :- Musical Website. WS :- Cool Musical Stuff!! 🎶</header>
 
-  <!-- Visualizer -->
-  <div id="visualizer"></div>
+  <header>🎶 Welcome to <span>YSWS Musical</span> 🎶</header>
 
-  <!-- Piano -->
-  <div class="piano" id="piano"></div>
-  <p> Hit Any Of Keys :- A S D F G H J K For A Surprise </p>
-  <p>YS :- Musical Website (you interpret the word)
-WS :- Month of Spotify Prem (1 hour of coding) , Headphones (5 hours of coding) , A Soundbox (10 hours of coding) or An Instrument of Your Choice (under 100$) (25 hours of coding)</p>
-
-  <!-- FAQ Section -->
+  <!-- Piano Section -->
   <section>
-    <h2>❓ FNQ • Rules</h2>
+    <h2>🎹 Try Our Piano!</h2>
+    <div class="piano" id="piano"></div>
+    <div id="visualizer"></div>
+    <p style="text-align:center;margin-top:10px;">Press keys A S D F G H J K on your keyboard or click the piano!</p>
+  </section>
+
+  <!-- Rules Section -->
+  <section>
+    <h2>📜 Rules (FNQ)</h2>
     <ul>
       <li>🚫 No AI Allowed</li>
       <li>👶 You must be 18 years or lesser</li>
       <li>🎵 Website must have some sort of music</li>
-      <li>⏱ MUST TRACK YOUR TIME WITH HACKATIME</li>
+      <li>⏱ Must track your time with Hackatime</li>
     </ul>
   </section>
 
@@ -158,28 +172,28 @@ WS :- Month of Spotify Prem (1 hour of coding) , Headphones (5 hours of coding) 
   <section>
     <h2>🏆 Rewards</h2>
     <div class="rewards">
-      <div class="card">1 Hour → Spotify Premium </div>
+      <div class="card">1 Hour → Spotify Premium</div>
       <div class="card">5 Hours → Headphones</div>
       <div class="card">10 Hours → Soundbox</div>
-      <div class="card">25 Hours → An Instrument Of Your Choice!! (under $100)</div>
+      <div class="card">25 Hours → Instrument of Your Choice (≤ $100)</div>
     </div>
   </section>
 
   <!-- Submit Section -->
-  <section>
+  <section style="text-align:center;">
     <h2>📩 Submit Your Project</h2>
-    <p style="text-align:center;">Finished your Musical Website? Submit it here 👇</p>
+    <p>Finished your Musical Website? Submit it here 👇</p>
     <a href="#" target="_blank" class="submit-btn">Submit Now</a>
   </section>
 
   <script>
-    // --- Piano Setup ---
+    // Piano Setup
     const keys = ['A','S','D','F','G','H','J','K'];
+    const notes = keys.map((_,i)=>440*Math.pow(2,(i-3)/12));
     const piano = document.getElementById("piano");
-    const notes = keys.map((_,i)=>440*Math.pow(2,(i-3)/12)); // scale
 
     keys.forEach((k,i)=>{
-      const div = document.createElement("div");
+      const div=document.createElement("div");
       div.className="key";
       div.textContent=k;
       piano.appendChild(div);
@@ -206,10 +220,10 @@ WS :- Month of Spotify Prem (1 hour of coding) , Headphones (5 hours of coding) 
       pulseBars();
     }
 
-    // --- Visualizer Bars ---
+    // Visualizer Bars
     const visualizer=document.getElementById("visualizer");
     const bars=[];
-    for(let i=0;i<60;i++){
+    for(let i=0;i<50;i++){
       const bar=document.createElement("div");
       bar.className="bar";
       visualizer.appendChild(bar);
@@ -217,11 +231,12 @@ WS :- Month of Spotify Prem (1 hour of coding) , Headphones (5 hours of coding) 
     }
     function pulseBars(){
       bars.forEach(bar=>{
-        bar.style.height=(Math.random()*150)+"px";
+        bar.style.height=(Math.random()*120)+"px";
         bar.style.background=`hsl(${Math.random()*360},100%,50%)`;
         setTimeout(()=>bar.style.height="10px",300);
       });
     }
   </script>
+
 </body>
 </html>
