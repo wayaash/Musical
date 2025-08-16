@@ -186,57 +186,46 @@
     <a href="#" target="_blank" class="submit-btn">Submit Now</a>
   </section>
 
-  <script>
-    // Piano Setup
-    const keys = ['A','S','D','F','G','H','J','K'];
-    const notes = keys.map((_,i)=>440*Math.pow(2,(i-3)/12));
-    const piano = document.getElementById("piano");
+ <script>
+  // --- Piano Setup with Better Sounds ---
+  const keys = ['A','S','D','F','G','H','J','K'];
+  const piano = document.getElementById("piano");
 
-    keys.forEach((k,i)=>{
-      const div=document.createElement("div");
-      div.className="key";
-      div.textContent=k;
-      piano.appendChild(div);
-      div.addEventListener("mousedown",()=>playNote(i,div));
-    });
+  // Small audio samples encoded in base64 (different notes)
+  const sounds = {
+    A: "data:audio/mp3;base64,SUQzAwAAAAAA...==", // put base64 sound here
+    S: "data:audio/mp3;base64,SUQzAwAAAAAA...==",
+    D: "data:audio/mp3;base64,SUQzAwAAAAAA...==",
+    F: "data:audio/mp3;base64,SUQzAwAAAAAA...==",
+    G: "data:audio/mp3;base64,SUQzAwAAAAAA...==",
+    H: "data:audio/mp3;base64,SUQzAwAAAAAA...==",
+    J: "data:audio/mp3;base64,SUQzAwAAAAAA...==",
+    K: "data:audio/mp3;base64,SUQzAwAAAAAA...=="
+  };
 
-    document.addEventListener("keydown",e=>{
-      const i=keys.indexOf(e.key.toUpperCase());
-      if(i>=0) playNote(i,piano.children[i]);
-    });
+  keys.forEach(k=>{
+    const div = document.createElement("div");
+    div.className="key";
+    div.textContent=k;
+    piano.appendChild(div);
 
-    function playNote(i,div){
-      const ctx=new AudioContext();
-      const osc=ctx.createOscillator();
-      const gain=ctx.createGain();
-      osc.type="sine";
-      osc.frequency.value=notes[i];
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+1);
-      div.classList.add("active");
-      setTimeout(()=>div.classList.remove("active"),200);
-      pulseBars();
-    }
+    div.addEventListener("mousedown",()=>playNote(k,div));
+  });
 
-    // Visualizer Bars
-    const visualizer=document.getElementById("visualizer");
-    const bars=[];
-    for(let i=0;i<50;i++){
-      const bar=document.createElement("div");
-      bar.className="bar";
-      visualizer.appendChild(bar);
-      bars.push(bar);
-    }
-    function pulseBars(){
-      bars.forEach(bar=>{
-        bar.style.height=(Math.random()*120)+"px";
-        bar.style.background=`hsl(${Math.random()*360},100%,50%)`;
-        setTimeout(()=>bar.style.height="10px",300);
-      });
-    }
-  </script>
+  document.addEventListener("keydown",e=>{
+    const k = e.key.toUpperCase();
+    if(keys.includes(k)) playNote(k,piano.children[keys.indexOf(k)]);
+  });
+
+  function playNote(k,div){
+    const audio = new Audio(sounds[k]);
+    audio.currentTime = 0;
+    audio.play();
+    div.classList.add("active");
+    setTimeout(()=>div.classList.remove("active"),200);
+    pulseBars();
+  }
+</script>
 
 </body>
 </html>
