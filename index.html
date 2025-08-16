@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YSWS • Musical Website</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background: linear-gradient(270deg, #ff6a00, #ee0979, #00c6ff, #00ff88);
+      background-size: 800% 800%;
+      animation: gradient 20s ease infinite;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+    @keyframes gradient {
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+    header {
+      margin: 20px;
+      font-size: 2.5rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 8px black;
+    }
+    #visualizer {
+      width: 90%;
+      height: 150px;
+      display: flex;
+      align-items: flex-end;
+      margin: 10px;
+    }
+    .bar {
+      flex: 1;
+      margin: 1px;
+      background: lime;
+      height: 10px;
+      border-radius: 3px;
+    }
+    .piano {
+      display: flex;
+      margin: 20px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .key {
+      width: 60px;
+      height: 200px;
+      border: 1px solid black;
+      background: white;
+      color: black;
+      text-align: center;
+      line-height: 200px;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+      transition: 0.1s;
+    }
+    .key.active {
+      background: gold;
+      transform: scale(0.95);
+    }
+    section {
+      width: 90%;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.3);
+    }
+    section h2 {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      background: rgba(255,255,255,0.1);
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+    }
+    .rewards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .card {
+      background: rgba(0,0,0,0.6);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.4);
+      text-align: center;
+      font-size: 1.2rem;
+      transition: 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(255,255,255,0.7);
+    }
+    .submit-btn {
+      display: block;
+      margin: 0 auto;
+      padding: 15px 25px;
+      background: #00ff88;
+      color: black;
+      font-weight: bold;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+      text-decoration: none;
+    }
+    .submit-btn:hover {
+      background: #00c6ff;
+      color: white;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <header>🎶 YSWS • Musical Website 🎶</header>
+
+  <!-- Visualizer -->
+  <div id="visualizer"></div>
+
+  <!-- Piano -->
+  <div class="piano" id="piano"></div>
+  <p>Play with your keyboard: A S D F G H J K</p>
+
+  <!-- FAQ Section -->
+  <section>
+    <h2>❓ FNQ • Rules</h2>
+    <ul>
+      <li>🚫 No AI Allowed</li>
+      <li>👶 You must be 18 years or lesser</li>
+      <li>🎵 Website must have some sort of music</li>
+    </ul>
+  </section>
+
+  <!-- Rewards Section -->
+  <section>
+    <h2>🏆 Rewards</h2>
+    <div class="rewards">
+      <div class="card">1 Hour → Spotify Prem (Demo)</div>
+      <div class="card">3 Hours → Headphones</div>
+      <div class="card">10 Hours → Soundbox</div>
+      <div class="card">25 Hours → Grant For An Instrument (under $100)</div>
+    </div>
+  </section>
+
+  <!-- Submit Section -->
+  <section>
+    <h2>📩 Submit Your Project</h2>
+    <p style="text-align:center;">Finished your Musical Website? Submit it here 👇</p>
+    <a href="#" target="_blank" class="submit-btn">Submit Now</a>
+  </section>
+
+  <script>
+    // --- Piano Setup ---
+    const keys = ['A','S','D','F','G','H','J','K'];
+    const piano = document.getElementById("piano");
+    const notes = keys.map((_,i)=>440*Math.pow(2,(i-3)/12)); // scale
+
+    keys.forEach((k,i)=>{
+      const div = document.createElement("div");
+      div.className="key";
+      div.textContent=k;
+      piano.appendChild(div);
+      div.addEventListener("mousedown",()=>playNote(i,div));
+    });
+
+    document.addEventListener("keydown",e=>{
+      const i=keys.indexOf(e.key.toUpperCase());
+      if(i>=0) playNote(i,piano.children[i]);
+    });
+
+    function playNote(i,div){
+      const ctx=new AudioContext();
+      const osc=ctx.createOscillator();
+      const gain=ctx.createGain();
+      osc.type="sine";
+      osc.frequency.value=notes[i];
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+1);
+      div.classList.add("active");
+      setTimeout(()=>div.classList.remove("active"),200);
+      pulseBars();
+    }
+
+    // --- Visualizer Bars ---
+    const visualizer=document.getElementById("visualizer");
+    const bars=[];
+    for(let i=0;i<60;i++){
+      const bar=document.createElement("div");
+      bar.className="bar";
+      visualizer.appendChild(bar);
+      bars.push(bar);
+    }
+    function pulseBars(){
+      bars.forEach(bar=>{
+        bar.style.height=(Math.random()*150)+"px";
+        bar.style.background=`hsl(${Math.random()*360},100%,50%)`;
+        setTimeout(()=>bar.style.height="10px",300);
+      });
+    }
+  </script>
+</body>
+</html>
