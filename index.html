@@ -1,368 +1,309 @@
 <!DOCTYPE html>
-<html lang="en">>
+<html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>HackClub YSWS hehehehehe that is Musical</title>
+<meta charset="utf-8" />
+<title>YS • Music-Centric Builds — WS Rewards</title>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <style>
   :root{
-    --bg1:#0f1724; --bg2:#0b3b5a; --accent1:#00ff88; --accent2:#00e0ff;
+    --ink:#e8fff6;
+    --muted:#bfeee1;
+    --bgA:#0c1020;
+    --bgB:#12223d;
+    --a1:#00ffa9;
+    --a2:#00c2ff;
     --glass: rgba(255,255,255,0.06);
   }
   *{box-sizing:border-box}
+  html,body{height:100%}
   body{
-    margin:0;
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    color: #e6f7ff;
-    background: radial-gradient(1200px 500px at 15% 10%, rgba(0,200,160,0.06), transparent 10%),
-                radial-gradient(1000px 400px at 85% 90%, rgba(0,160,255,0.04), transparent 10%),
-                linear-gradient(180deg,var(--bg1),var(--bg2));
-    min-height:100vh;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    padding:28px;
-    display:flex;
-    flex-direction:column;
-    gap:28px;
-    align-items:center;
+    margin:0; color:var(--ink);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background:
+      radial-gradient(900px 400px at 10% 8%, rgba(0,255,200,.08), transparent 35%),
+      radial-gradient(900px 500px at 90% 92%, rgba(0,200,255,.07), transparent 40%),
+      linear-gradient(180deg,var(--bgA),var(--bgB));
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
   }
-
+  .wrap{max-width:1200px;margin:0 auto;padding:28px}
   header{
-    text-align:center;
-    width:100%;
-    max-width:1100px;
-    padding:22px;
-    border-radius:12px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    box-shadow: 0 6px 30px rgba(0,0,0,0.6), 0 0 40px rgba(0,220,200,0.03) inset;
-    border:1px solid rgba(255,255,255,0.03);
+    display:flex;gap:18px;align-items:center;justify-content:space-between;
+    background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));
+    border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:18px 20px;
+    box-shadow:0 10px 40px rgba(0,0,0,.45);
   }
-  header h1{ margin:0; font-size:1.9rem; letter-spacing:0.6px; }
-  header p{ margin:6px 0 0; opacity:0.85; font-size:0.95rem }
-
-  .container{ width:100%; max-width:1100px; display:grid; gap:20px;
-    grid-template-columns: 1fr 360px; align-items:start;
+  .brand{display:flex;gap:14px;align-items:center}
+  .logo{
+    width:44px;height:44px;border-radius:12px;
+    background:conic-gradient(from 180deg,var(--a1),var(--a2),#7cf3ff,var(--a1));
+    position:relative; box-shadow:0 10px 20px rgba(0,200,220,.25) inset, 0 8px 28px rgba(0,0,0,.45);
+  }
+  .logo:after{
+    content:"♪"; position:absolute; inset:0; display:grid; place-items:center;
+    color:#041013; font-weight:900; font-size:22px; filter:drop-shadow(0 2px 6px rgba(0,0,0,.6));
+  }
+  h1{margin:0;font-size:1.7rem;letter-spacing:.4px}
+  .sub{margin:4px 0 0;color:var(--muted);font-size:.95rem}
+  .cta{
+    border:none; border-radius:999px; padding:10px 16px; cursor:pointer;
+    font-weight:800; color:#041013;
+    background:linear-gradient(90deg,var(--a1),var(--a2));
+    box-shadow:0 14px 40px rgba(0,220,200,.18);
   }
 
-  @media (max-width:980px){
-    .container{ grid-template-columns: 1fr; padding:0 8px; }
-  }
+  /* layout */
+  .grid{display:grid;gap:18px;margin-top:22px;grid-template-columns:1.35fr .95fr}
+  @media (max-width:1020px){ .grid{grid-template-columns:1fr} }
 
-  /* left column cards */
   .card{
-    border-radius:12px;
-    padding:18px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border:1px solid rgba(255,255,255,0.03);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    border-radius:14px; padding:18px;
+    background:linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,.015));
+    border:1px solid rgba(255,255,255,.05);
+    box-shadow:0 10px 36px rgba(0,0,0,.5);
+  }
+  .section-title{margin:0 0 10px;font-size:1.2rem}
+
+  /* Visualizer */
+  #visualizer{
+    height:150px; display:flex; gap:5px; align-items:flex-end; padding:10px;
+    background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(255,255,255,.02));
+    border-radius:12px; overflow:hidden; margin-bottom:10px;
+  }
+  .bar{flex:1; height:8px; border-radius:8px;
+    background:linear-gradient(180deg,var(--a1),var(--a2));
+    transition:height 90ms linear, background 120ms linear;
+    box-shadow:0 6px 20px rgba(0,0,0,.38) inset;
   }
 
-  /* visualizer */
-  #visualizer {
-    display:flex; gap:4px; align-items:flex-end; height:140px;
-    width:100%; margin-bottom:8px;
-    background: linear-gradient(180deg, rgba(0,0,0,0.14), rgba(255,255,255,0.01));
-    padding:12px; border-radius:10px; overflow:hidden;
-  }
-  .bar{ flex:1; background: linear-gradient(180deg,var(--accent1),var(--accent2)); height:8px; border-radius:6px; transition:height 90ms linear, background 120ms linear; box-shadow: 0 6px 18px rgba(0,0,0,0.45) inset; }
-
-  /* soundboard */
-  .soundboard-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:12px; margin-top:8px; }
+  /* Soundboard */
+  .tools{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .ghost{padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);cursor:pointer}
+  .grid-pads{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}
   .pad{
-    background:var(--glass); border-radius:10px; padding:14px;
-    display:flex; flex-direction:column; gap:8px; align-items:center; justify-content:center;
-    cursor:pointer; user-select:none; transition: transform .15s ease, box-shadow .15s ease, background .15s;
-    border:1px solid rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,.06); border-radius:12px; padding:14px;
+    background:var(--glass); display:flex; flex-direction:column; align-items:center; gap:6px;
+    user-select:none; cursor:pointer; transition:transform .15s, box-shadow .15s, background .15s;
   }
-  .pad:hover{ transform:translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.6); background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); }
-  .pad .label{ font-weight:600; color:#001; background: linear-gradient(90deg,var(--accent1),var(--accent2)); -webkit-background-clip:text; background-clip:text; color:transparent; font-size:1.02rem; }
-  .pad .sub{ font-size:0.86rem; opacity:0.85; margin-top:4px; color:#d7fbef; }
+  .pad:hover{transform:translateY(-6px);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));box-shadow:0 16px 36px rgba(0,0,0,.55)}
+  .pad .lab{font-weight:700;background:linear-gradient(90deg,var(--a1),var(--a2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .pad .key{font-size:.85rem;color:var(--muted)}
 
-  /* right column */
-  .side{
-    display:flex; flex-direction:column; gap:12px;
-    position:relative;
-  }
-
-  .faq li{ margin:10px 0; padding:10px 12px; border-radius:8px; background:rgba(0,0,0,0.25);
-    border-left:4px solid var(--accent1); list-style:none; font-weight:600;
+  /* FAQ */
+  .faq li{
+    list-style:none;margin:10px 0;padding:10px 12px;border-radius:10px;
+    background:rgba(0,0,0,.25); border-left:4px solid var(--a1); font-weight:600;
   }
 
-  .rewards-grid{ display:grid; gap:10px; margin-top:8px; }
+  /* Rewards */
+  .rewards{display:grid;gap:10px}
   .reward{
-    padding:12px; border-radius:10px; background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    display:flex; justify-content:space-between; align-items:center; gap:8px; border:1px solid rgba(255,255,255,0.03);
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+    padding:12px;border-radius:12px;
+    background:linear-gradient(90deg,rgba(255,255,255,.028),rgba(255,255,255,.015));
+    border:1px solid rgba(255,255,255,.05);
   }
-  .reward strong{ color:var(--accent1); font-size:1.02rem; }
+  .reward strong{color:var(--a1)}
+  .submit-row{display:flex;gap:12px;justify-content:center;margin-top:12px}
 
-  .submit-row{ display:flex; gap:12px; justify-content:center; align-items:center; margin-top:8px; }
-  .submit-btn{
-    padding:10px 18px; border-radius:999px; background: linear-gradient(90deg,var(--accent1), var(--accent2));
-    color:#001; font-weight:800; text-decoration:none; border:none; cursor:pointer; box-shadow:0 10px 30px rgba(0,220,200,0.08);
-  }
-  .bg-toggle{ padding:8px 12px; border-radius:10px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03); cursor:pointer; }
-
-  footer{ width:100%; max-width:1100px; text-align:center; font-size:0.85rem; opacity:0.8; padding-bottom:18px; margin-top:4px; color:#bfeee1 }
+  footer{margin:26px auto 18px;max-width:1200px;text-align:center;color:var(--muted);font-size:.9rem}
 </style>
 </head>
 <body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>YS — Any Music-Centric Project • WS Rewards</h1>
+          <div class="sub">Build something around music. Code, create, and earn gear along the way.</div>
+        </div>
+      </div>
+      <button class="cta" onclick="scrollToSubmit()">Submit Project</button>
+    </header>
 
-  <header>
-    <h1>🎵 HackClub YSWS — Musical Showcase</h1>
-    <p>YS: Musical Website • WS: build, log time, win rewards — have fun & make sound!</p>
-  </header>
-
-  <div class="container">
-    <!-- LEFT: interactive area -->
-    <div>
-      <div class="card">
-        <h2 style="margin-bottom:8px">Live Visualizer & Soundboard</h2>
+    <div class="grid">
+      <!-- LEFT: Visualizer + Soundboard -->
+      <section class="card">
+        <h2 class="section-title">Live Visualizer & Soundboard</h2>
         <div id="visualizer" aria-hidden="true"></div>
 
-        <div style="display:flex;gap:12px;align-items:center;justify-content:space-between">
-          <div style="font-weight:700">Soundboard</div>
-          <div style="display:flex;gap:8px;align-items:center">
-            <button id="bgToggle" class="bg-toggle" title="Toggle background loop">Play background</button>
-            <button id="stopAll" class="bg-toggle" title="Stop all sounds">Stop</button>
+        <div class="tools">
+          <div style="font-weight:800">Soundboard</div>
+          <div style="display:flex;gap:8px">
+            <button id="bgToggle" class="ghost" title="Toggle background loop">Play background</button>
+            <button id="stopAll" class="ghost" title="Stop all sounds">Stop</button>
           </div>
         </div>
 
-        <div class="soundboard-grid card" id="soundboard" style="margin-top:12px"></div>
-      </div>
+        <div id="board" class="grid-pads" aria-label="soundboard pads"></div>
 
-      <div class="card" style="margin-top:18px">
-        <h2 style="margin-bottom:8px">Quick Notes</h2>
-        <p style="opacity:.9; line-height:1.5">Click pads or press keyboard keys to play sounds. Visualizer reacts to the audio. Use the Submit button to hand off your project (Fillout link placeholder).</p>
-      </div>
-    </div>
+        <p style="margin:12px 0 0;color:var(--muted)">Tip: Use keys <b>Q W E R</b> and <b>A S D F</b> too.</p>
+      </section>
 
-    <aside class="side">
-      <div class="card">
-        <h2 style="margin-bottom:8px">❓ FNQ • Rules</h2>
-        <ul class="faq">
+      <!-- RIGHT: FAQ + Rewards + Submit -->
+      <aside class="card">
+        <h2 class="section-title">❓ FNQ • Rules</h2>
+        <ul class="faq" style="margin:0;padding:0">
           <li>🚫 No AI Allowed</li>
           <li>👶 You must be 18 years or lesser</li>
-          <li>🎵 Website must have some sort of music</li>
+          <li>🎵 Project/website must include some music element</li>
           <li>⏱ MUST TRACK YOUR TIME WITH HACKATIME</li>
         </ul>
-      </div>
 
-      <div class="card">
-        <h2 style="margin-bottom:8px">🏆 Rewards</h2>
-        <div class="rewards-grid">
-          <div class="reward"><span>1 Hour</span><strong>→ Spotify Premium</strong></div>
-          <div class="reward"><span>5 Hours</span><strong>→ Headphones</strong></div>
-          <div class="reward"><span>10 Hours</span><strong>→ Soundbox</strong></div>
-          <div class="reward"><span>25 Hours</span><strong>→ An Instrument Of Your Choice (under $100)</strong></div>
+        <div style="height:14px"></div>
+        <h2 class="section-title">🏆 WS — Rewards (New)</h2>
+        <div class="rewards">
+          <div class="reward"><span><b>1 hr</b></span> <strong>Stickers!!</strong></div>
+          <div class="reward"><span><b>5 hr</b></span> <strong>A Music Album Of Your Choice!!</strong></div>
+          <div class="reward"><span><b>10 hr</b></span> <strong>$50 Microphone</strong></div>
+          <div class="reward"><span><b>20 hr</b></span> <strong>$100 Headphones (better cans!)</strong></div>
+          <div class="reward"><span><b>30 hr</b></span> <strong>$150 Speaker / Soundbox</strong></div>
+          <div class="reward"><span><b>40 hr</b></span> <strong>Basic Instrument (up to $200)</strong></div>
+          <div class="reward"><span><b>50 hr</b></span> <strong>Better Instrument (max $250)</strong></div>
         </div>
-        <div class="submit-row">
-          <a id="submitBtn" class="submit-btn" href="#" target="_blank" rel="noreferrer">Submit Now</a>
+
+        <div id="submit" class="submit-row">
+          <a id="submitBtn" class="cta" href="#" target="_blank" rel="noreferrer">Submit via Fillout</a>
         </div>
-      </div>
-    </aside>
+      </aside>
+    </div>
+
+    <footer>
+      YSWS #musical on slack. made with pyaar. yash.
+    </footer>
   </div>
 
-  <footer>Made for HackClub YSWS With Pyaar By Yash.</footer>
-
 <script>
+/* =================== AUDIO CORE =================== */
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-const masterGain = audioCtx.createGain();
-masterGain.gain.value = 0.9;
-masterGain.connect(audioCtx.destination);
+const masterGain = audioCtx.createGain(); masterGain.gain.value = 0.9;
+const analyser = audioCtx.createAnalyser(); analyser.fftSize = 256; analyser.smoothingTimeConstant = 0.82;
 
-const analyser = audioCtx.createAnalyser();
-analyser.fftSize = 256;
-analyser.smoothingTimeConstant = 0.8;
-analyser.connect(masterGain);
+analyser.connect(masterGain); masterGain.connect(audioCtx.destination);
 
-const visualizerEl = document.getElementById('visualizer');
+// Unlock audio on first interaction
+function unlock(){ if(audioCtx.state==='suspended') audioCtx.resume(); document.removeEventListener('pointerdown', unlock); }
+document.addEventListener('pointerdown', unlock);
+
+/* =================== VISUALIZER =================== */
+const vis = document.getElementById('visualizer');
 const BAR_COUNT = 48;
 const bars = [];
-for(let i=0;i<BAR_COUNT;i++){
-  const b = document.createElement('div');
-  b.className = 'bar';
-  visualizerEl.appendChild(b);
-  bars.push(b);
+for (let i=0;i<BAR_COUNT;i++){
+  const b = document.createElement('div'); b.className='bar'; bars.push(b); vis.appendChild(b);
 }
-
-const dataArr = new Uint8Array(analyser.frequencyBinCount);
-function renderFrame(){
-  requestAnimationFrame(renderFrame);
-  analyser.getByteFrequencyData(dataArr);
-  for(let i=0;i<BAR_COUNT;i++){
-    const v = dataArr[i] || 0;
-    const h = Math.max(6, (v/255)*130); // px
-    bars[i].style.height = h + 'px';
-    // color by energy
-    const hue = Math.round((v/255)*140); // green->yellow
-    bars[i].style.background = `linear-gradient(180deg,hsl(${hue},80%,60%), hsl(${hue+30},80%,45%))`;
+const freq = new Uint8Array(analyser.frequencyBinCount);
+(function draw(){
+  requestAnimationFrame(draw);
+  analyser.getByteFrequencyData(freq);
+  for (let i=0;i<BAR_COUNT;i++){
+    const v = freq[i] || 0;
+    const h = Math.max(6,(v/255)*140);
+    const hue = Math.round(130 + (v/255)*60); // green -> teal
+    bars[i].style.height = h+'px';
+    bars[i].style.background = `linear-gradient(180deg,hsl(${hue},90%,65%), hsl(${hue+20},85%,45%))`;
   }
-}
-renderFrame();
+})();
 
-
+/* =================== SOUNDBOARD =================== */
 const pads = [
-  { id:'kick', label:'Kick', key:'Q', url:'https://cdn.pixabay.com/download/audio/2021/10/15/audio_b2e2b9c7d6.mp3?filename=drum-bass-1-4669.mp3' },
-  { id:'snare', label:'Snare', key:'W', url:'https://cdn.pixabay.com/download/audio/2021/10/23/audio_27a5f5ee4f.mp3?filename=snare-1-4641.mp3' },
+  { id:'kick',  label:'Kick',   key:'Q', url:'https://cdn.pixabay.com/download/audio/2021/10/15/audio_b2e2b9c7d6.mp3?filename=drum-bass-1-4669.mp3' },
+  { id:'snare', label:'Snare',  key:'W', url:'https://cdn.pixabay.com/download/audio/2021/10/23/audio_27a5f5ee4f.mp3?filename=snare-1-4641.mp3' },
   { id:'hihat', label:'Hi-Hat', key:'E', url:'https://cdn.pixabay.com/download/audio/2021/10/15/audio_6a0a0c3e8a.mp3?filename=hi-hat-1-4673.mp3' },
-  { id:'clap', label:'Clap', key:'R', url:'https://cdn.pixabay.com/download/audio/2021/10/15/audio_f1b4e4a7cb.mp3?filename=handclap-2-4688.mp3' },
-  { id:'bell', label:'Bell', key:'A', url:'https://cdn.pixabay.com/download/audio/2022/03/15/audio_3a4b2a1f44.mp3?filename=bell-tone-6003.mp3' },
-  { id:'bass', label:'Bass', key:'S', url:'https://cdn.pixabay.com/download/audio/2022/03/01/audio_3e5a1c2d4b.mp3?filename=bass-hit-6001_128.mp3' },
-  { id:'chord', label:'Chord', key:'D', url:'https://cdn.pixabay.com/download/audio/2022/03/15/audio_7a6a2b5a8a.mp3?filename=chord-2-6010.mp3' },
-  { id:'lead', label:'Lead', key:'F', url:'https://cdn.pixabay.com/download/audio/2022/03/15/audio_0d4c3f2b8b.mp3?filename=lead-sound-6012.mp3' }
+  { id:'clap',  label:'Clap',   key:'R', url:'https://cdn.pixabay.com/download/audio/2021/10/15/audio_f1b4e4a7cb.mp3?filename=handclap-2-4688.mp3' },
+  { id:'bell',  label:'Bell',   key:'A', url:'https://cdn.pixabay.com/download/audio/2022/03/15/audio_3a4b2a1f44.mp3?filename=bell-tone-6003.mp3' },
+  { id:'bass',  label:'Bass',   key:'S', url:'https://cdn.pixabay.com/download/audio/2022/03/01/audio_3e5a1c2d4b.mp3?filename=bass-hit-6001_128.mp3' },
+  { id:'chord', label:'Chord',  key:'D', url:'https://cdn.pixabay.com/download/audio/2022/03/15/audio_7a6a2b5a8a.mp3?filename=chord-2-6010.mp3' },
+  { id:'lead',  label:'Lead',   key:'F', url:'https://cdn.pixabay.com/download/audio/2022/03/15/audio_0d4c3f2b8b.mp3?filename=lead-sound-6012.mp3' }
 ];
 
-// Preload audio buffers (fetch + decode). if fails, mark fallback true
 const padMap = new Map();
-
-async function preloadPad(p){
-  const obj = { info:p, buffer:null, fallback:false };
+async function loadPad(p){
+  const entry = { info:p, buffer:null, fallback:false };
   try{
-    const resp = await fetch(p.url, {mode:'cors'});
-    if(!resp.ok) throw new Error('fetch fail');
-    const ab = await resp.arrayBuffer();
-    const buf = await audioCtx.decodeAudioData(ab);
-    obj.buffer = buf;
-  }catch(err){
-    console.warn('Sound preload failed for', p.id, '-> will fallback to synth', err);
-    obj.fallback = true;
-  }
-  padMap.set(p.id, obj);
+    const r = await fetch(p.url, {mode:'cors'});
+    if(!r.ok) throw new Error('http');
+    const ab = await r.arrayBuffer();
+    entry.buffer = await audioCtx.decodeAudioData(ab);
+  }catch(e){ entry.fallback = true; console.warn('Pad fallback:', p.id, e); }
+  padMap.set(p.id, entry);
 }
+Promise.all(pads.map(loadPad));
 
-Promise.all(pads.map(preloadPad)).then(()=>{ console.log('pads preloaded'); });
+function padUI(){
+  const board = document.getElementById('board');
+  pads.forEach(p=>{
+    const el = document.createElement('div');
+    el.className = 'pad'; el.id = 'pad-'+p.id;
+    el.innerHTML = `<div class="lab">${p.label}</div><div class="key">${p.key}</div>`;
+    el.addEventListener('click', ()=>{ playPad(p.id); flash(el); });
+    board.appendChild(el);
+  });
+}
+padUI();
+
+document.addEventListener('keydown', (ev)=>{
+  const k = ev.key.toUpperCase();
+  const p = pads.find(x=>x.key===k);
+  if(p){ playPad(p.id); const el = document.getElementById('pad-'+p.id); flash(el); }
+});
 
 function playPad(id){
-  // resume audio context on first user interaction (some browsers block)
-  if(audioCtx.state === 'suspended') audioCtx.resume();
-  const entry = padMap.get(id);
-  if(!entry){
-    console.warn('no pad', id); return;
-  }
-  if(entry.buffer){
-    const src = audioCtx.createBufferSource();
-    src.buffer = entry.buffer;
-    const g = audioCtx.createGain();
-    g.gain.value = 1;
-    src.connect(g);
-    g.connect(analyser);
-    // small random detune for liveliness
-    try{ src.playbackRate.value = 0.95 + Math.random()*0.12; }catch(e){}
-    src.start();
-    // stop node cleanup automatically when finished
-    setTimeout(()=>{ try{ src.stop(); }catch{} }, (entry.buffer.duration+1)*1000);
-  } else {
-    // synth fallback — a short percussive tone
-    const osc = audioCtx.createOscillator();
-    const g = audioCtx.createGain();
-    osc.type = 'sawtooth';
-    osc.frequency.value = 120 + Math.random()*400;
-    g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.8, audioCtx.currentTime + 0.01);
-    g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.5);
-    osc.connect(g); g.connect(analyser);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.6);
-  }
-}
-
-
-const boardEl = document.getElementById('soundboard');
-pads.forEach(p=>{
-  const el = document.createElement('div');
-  el.className = 'pad';
-  el.id = 'pad-'+p.id;
-  el.innerHTML = `<div class="label">${p.label}</div><div class="sub">${p.key}</div>`;
-  el.onclick = () => { playPad(p.id); flashPad(el); };
-  boardEl.appendChild(el);
-});
-
-
-document.addEventListener('keydown', (evt)=>{
-  const k = evt.key.toUpperCase();
-  const p = pads.find(x=>x.key === k);
-  if(p){ playPad(p.id); const el=document.getElementById('pad-'+p.id); flashPad(el); }
-});
-
-// pad flash effect
-function flashPad(el){
-  el.style.transform = 'translateY(-6px) scale(1.02)';
-  el.style.boxShadow = '0 18px 40px rgba(0,0,0,0.55)';
-  setTimeout(()=>{ el.style.transform=''; el.style.boxShadow=''; }, 180);
-}
-
-
-document.getElementById('stopAll').addEventListener('click', ()=>{
-
-  try{
-    masterGain.disconnect();
-    masterGain.connect(audioCtx.destination);
-  }catch(e){}
-});
-/
-const bgToggle = document.getElementById('bgToggle');
-let bgSource = null;
-let bgPlaying = false;
-const bgUrl = 'https://cdn.pixabay.com/download/audio/2021/10/22/audio_9b7a1a7b3a.mp3?filename=chill-loop-11008.mp3'; // royalty-free loop
-async function startBackground(){
-  if(bgPlaying) return;
-  try{
-    const resp = await fetch(bgUrl);
-    const ab = await resp.arrayBuffer();
-    const buf = await audioCtx.decodeAudioData(ab);
-    const src = audioCtx.createBufferSource();
-    src.buffer = buf;
-    src.loop = true;
-    const g = audioCtx.createGain(); g.gain.value = 0.35;
+  if(audioCtx.state==='suspended') audioCtx.resume();
+  const e = padMap.get(id);
+  if(e && e.buffer){
+    const src = audioCtx.createBufferSource(); src.buffer = e.buffer;
+    const g = audioCtx.createGain(); g.gain.value = 1.0;
     src.connect(g); g.connect(analyser);
+    try{ src.playbackRate.value = 0.95 + Math.random()*0.12; }catch(_){}
     src.start();
-    bgSource = src; bgPlaying = true;
-    bgToggle.textContent = 'Stop background';
-  }catch(err){
-    console.warn('bg loop failed', err);
+  } else {
+    // graceful synth fallback
+    const osc = audioCtx.createOscillator(); const g = audioCtx.createGain();
+    osc.type='triangle'; osc.frequency.value = 140 + Math.random()*420;
+    g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.75, audioCtx.currentTime+0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime+0.45);
+    osc.connect(g); g.connect(analyser); osc.start(); osc.stop(audioCtx.currentTime+0.5);
   }
 }
-function stopBackground(){
-  if(bgSource){ try{ bgSource.stop(); }catch{} bgSource = null; }
-  bgPlaying = false;
-  bgToggle.textContent = 'Play background';
+function flash(el){
+  el.style.transform='translateY(-6px) scale(1.02)';
+  el.style.boxShadow='0 18px 40px rgba(0,0,0,.55)';
+  setTimeout(()=>{ el.style.transform=''; el.style.boxShadow=''; }, 170);
 }
-bgToggle.addEventListener('click', async ()=>{
-  // resume context if suspended
-  if(audioCtx.state === 'suspended') await audioCtx.resume();
-  if(!bgPlaying) startBackground(); else stopBackground();
+
+/* =================== BACKGROUND LOOP =================== */
+let bgSrc=null, bgOn=false;
+const bgBtn = document.getElementById('bgToggle');
+const bgUrl = 'https://cdn.pixabay.com/download/audio/2021/10/22/audio_9b7a1a7b3a.mp3?filename=chill-loop-11008.mp3';
+async function startBG(){
+  if(bgOn) return;
+  try{
+    const r = await fetch(bgUrl); const ab = await r.arrayBuffer();
+    const buf = await audioCtx.decodeAudioData(ab);
+    const src = audioCtx.createBufferSource(); src.buffer=buf; src.loop=true;
+    const g = audioCtx.createGain(); g.gain.value=0.35;
+    src.connect(g); g.connect(analyser); src.start();
+    bgSrc=src; bgOn=true; bgBtn.textContent='Stop background';
+  }catch(e){ console.warn('BG failed', e); }
+}
+function stopBG(){ if(bgSrc){ try{ bgSrc.stop(); }catch(_){ } bgSrc=null; } bgOn=false; bgBtn.textContent='Play background'; }
+bgBtn.addEventListener('click', async ()=>{ if(audioCtx.state==='suspended') await audioCtx.resume(); bgOn?stopBG():startBG(); });
+
+/* =================== STOP ALL =================== */
+document.getElementById('stopAll').addEventListener('click', ()=>{
+  stopBG();
+  // Soft stop: momentarily disconnect/reconnect master to cut lingering tails
+  try{ masterGain.disconnect(); masterGain.connect(audioCtx.destination); }catch(_){}
 });
 
-
-function unlockAudio(){
-  if(audioCtx.state === 'suspended') audioCtx.resume().then(()=>{ /* unlocked */ });
-  document.removeEventListener('pointerdown', unlockAudio);
-}
-document.addEventListener('pointerdown', unlockAudio);
-
-/* Submit button placeholder: keep href '#', user will replace */
-const submitBtn = document.getElementById('submitBtn');
-submitBtn.addEventListener('click', (e)=>{
-  // user will replace href with their Fillout link. we leave default.
-  // provide friendly UX: ensure audio context is resumed before navigating away.
-  if(audioCtx.state === 'suspended') audioCtx.resume();
+/* =================== SUBMIT =================== */
+function scrollToSubmit(){ document.getElementById('submit').scrollIntoView({behavior:'smooth'}); }
+document.getElementById('submitBtn').addEventListener('click', ()=>{
+  if(audioCtx.state==='suspended') audioCtx.resume();
+  // Replace href with your Fillout link (kept as '#')
 });
-
-/* Accessibility tweaks: announce when background starts/stops */
-function announce(msg){
-  const el = document.getElementById('a11yAnnounce') || (()=>{
-    const s = document.createElement('div');
-    s.id='a11yAnnounce';
-    s.setAttribute('aria-live','polite');
-    s.style.position='absolute'; s.style.left='-9999px';
-    document.body.appendChild(s);
-    return s;
-  })();
-  el.textContent = msg;
-}
-bgToggle.addEventListener('click', ()=> announce(bgPlaying? 'Background music stopped':'Background music playing'));
-
-
 </script>
 </body>
 </html>
