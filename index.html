@@ -136,7 +136,6 @@
       </div>
     </div>
 
-    <!-- RIGHT: rules, rewards, submit -->
     <aside class="side">
       <div class="card">
         <h2 style="margin-bottom:8px">❓ FNQ • Rules</h2>
@@ -163,22 +162,19 @@
     </aside>
   </div>
 
-  <footer>Made for HackClub YSWS • Built single-file — replace the Submit link with your Fillout URL when ready.</footer>
+  <footer>Made for HackClub YSWS With Pyaar By Yash.</footer>
 
 <script>
-/* ========= AUDIO SETUP ========= */
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 const masterGain = audioCtx.createGain();
 masterGain.gain.value = 0.9;
 masterGain.connect(audioCtx.destination);
 
-// Analyzer for visualizer
 const analyser = audioCtx.createAnalyser();
 analyser.fftSize = 256;
 analyser.smoothingTimeConstant = 0.8;
 analyser.connect(masterGain);
 
-// visualizer bars
 const visualizerEl = document.getElementById('visualizer');
 const BAR_COUNT = 48;
 const bars = [];
@@ -189,7 +185,6 @@ for(let i=0;i<BAR_COUNT;i++){
   bars.push(b);
 }
 
-/* Utility: draw analyser */
 const dataArr = new Uint8Array(analyser.frequencyBinCount);
 function renderFrame(){
   requestAnimationFrame(renderFrame);
@@ -205,9 +200,7 @@ function renderFrame(){
 }
 renderFrame();
 
-/* ========= SOUNDBOARD =========
-We use hosted short sounds. If a fetch fails, we fall back to a synth note.
-*/
+
 const pads = [
   { id:'kick', label:'Kick', key:'Q', url:'https://cdn.pixabay.com/download/audio/2021/10/15/audio_b2e2b9c7d6.mp3?filename=drum-bass-1-4669.mp3' },
   { id:'snare', label:'Snare', key:'W', url:'https://cdn.pixabay.com/download/audio/2021/10/23/audio_27a5f5ee4f.mp3?filename=snare-1-4641.mp3' },
@@ -239,7 +232,6 @@ async function preloadPad(p){
 
 Promise.all(pads.map(preloadPad)).then(()=>{ console.log('pads preloaded'); });
 
-/* Play a pad: if buffer exists, use BufferSource; else synth fallback */
 function playPad(id){
   // resume audio context on first user interaction (some browsers block)
   if(audioCtx.state === 'suspended') audioCtx.resume();
@@ -274,7 +266,7 @@ function playPad(id){
   }
 }
 
-/* Build UI for pads and wire keyboard */
+
 const boardEl = document.getElementById('soundboard');
 pads.forEach(p=>{
   const el = document.createElement('div');
@@ -285,7 +277,7 @@ pads.forEach(p=>{
   boardEl.appendChild(el);
 });
 
-// keyboard mapping: Q W E R / A S D F
+
 document.addEventListener('keydown', (evt)=>{
   const k = evt.key.toUpperCase();
   const p = pads.find(x=>x.key === k);
@@ -299,16 +291,15 @@ function flashPad(el){
   setTimeout(()=>{ el.style.transform=''; el.style.boxShadow=''; }, 180);
 }
 
-/* STOP ALL button */
+
 document.getElementById('stopAll').addEventListener('click', ()=>{
-  // quick way: close and recreate masterGain connection (silences scheduled nodes)
+
   try{
     masterGain.disconnect();
     masterGain.connect(audioCtx.destination);
   }catch(e){}
 });
-
-/* Background loop toggle (user starts it) */
+/
 const bgToggle = document.getElementById('bgToggle');
 let bgSource = null;
 let bgPlaying = false;
@@ -342,7 +333,7 @@ bgToggle.addEventListener('click', async ()=>{
   if(!bgPlaying) startBackground(); else stopBackground();
 });
 
-/* Safety: unlock audio on first user gesture if needed */
+
 function unlockAudio(){
   if(audioCtx.state === 'suspended') audioCtx.resume().then(()=>{ /* unlocked */ });
   document.removeEventListener('pointerdown', unlockAudio);
@@ -371,7 +362,7 @@ function announce(msg){
 }
 bgToggle.addEventListener('click', ()=> announce(bgPlaying? 'Background music stopped':'Background music playing'));
 
-/* End of script */
+
 </script>
 </body>
 </html>
